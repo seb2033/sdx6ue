@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: recipe-db
+    restart: always
+    env_file: 
+      - .env
+    healthcheck: 
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - recipe-network
+
+  app:
+    build: .
+    container_name: recipe-app
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: recipe
+    ports:
+      - "8080:8080"
+    networks:
+      - recipe-network
+
+volumes:
+  db-data:
+
+networks:
+  recipe-network:
