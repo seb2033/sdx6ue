@@ -6,8 +6,8 @@ services:
     env_file: 
       - .env
     healthcheck: 
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
-      interval: 10s
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 3s
       retries: 5
       start_period: 30s
       timeout: 10s
@@ -26,12 +26,8 @@ services:
       db:
         condition: service_healthy
         restart: true
-    environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: recipe
+    env_file: 
+      - .env
     ports:
       - "8080:8080"
     networks:
