@@ -1,0 +1,17 @@
+{
+  "group": {
+    "default": {
+      "targets": [
+        "app"
+      ]
+    }
+  },
+  "target": {
+    "app": {
+      "tags": ["myapp"],
+      "context": ".",
+      "dockerfile": "Dockerfile",
+      "platforms": ["linux/amd64", "linux/arm64"]
+    }
+  }
+}
