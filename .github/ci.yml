@@ -1,0 +1,75 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - "main"
+      
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository }}
+  LOCAL_TAG: recipe-app:ci
+
+jobs:
+  lint:
+    name: Lint Go
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.24'
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.54
+          working-directory: src
+  
+  build and check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: ./
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+    
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build local image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: ${{ env.LOCAL_TAG }}
+
+      - name: Update Go Dependencies
+        run: |
+          cd src
+          go get -u ./...
+
+      - name: Scan with Trivy
+        uses: aquasecurity/trivy-action@v0.28.0
+        with:
+          scan-ref: ${{ env.LOCAL_TAG }}
+          format: table
+          ignore-unfixed: true
+          severity: CRITICAL,HIGH
+          exit-code: 1
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:latest
+          platforms: linux/amd64,linux/arm64
