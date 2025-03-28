@@ -4,13 +4,14 @@ import time
 BASE_URL = "http://localhost:8080"
 
 # Retry a few times if needed
+time.sleep(30)
 for i in range(10):
     try:
         r = requests.get(BASE_URL + "/health")
         if r.status_code == 200:
             break
     except Exception:
-        time.sleep(6)
+        time.sleep(3)
 else:
     raise Exception("Service did not become healthy")
 
