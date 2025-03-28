@@ -11,7 +11,7 @@ env:
 
 jobs:
   lint:
-    name: Lint Go
+    name: Lint Go and Docker
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,9 +26,9 @@ jobs:
           version: v2.0
           working-directory: src
       - name: Lint Dockerfile
-        uses: hadolint/hadolint-action@master
+        uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: "Dockerfile"
+          dockerfile: Dockerfile
   
   build_check:
     runs-on: ubuntu-latest
