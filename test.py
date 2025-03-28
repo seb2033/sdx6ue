@@ -3,8 +3,9 @@ import time
 
 BASE_URL = "http://localhost:8080"
 
+#Wait initial time
+time.sleep(60)
 # Retry a few times if needed
-time.sleep(30)
 for i in range(10):
     try:
         r = requests.get(BASE_URL + "/health")
