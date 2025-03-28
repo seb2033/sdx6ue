@@ -32,9 +32,10 @@ jobs:
   
   build_check:
     runs-on: ubuntu-latest
-    permissions:
+    permissions: 
       contents: read
       packages: write
+    needs: lint
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,10 +58,15 @@ jobs:
         with:
           image-ref: ${{ env.LOCAL_TAG }}
           format: table
-          ignore-unfixed: true
+          ignore-unfixed: false
           severity: CRITICAL,HIGH
           exit-code: 1
 
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+     
       - name: Run Python Tests
         run: python3 test.py
 
@@ -70,4 +76,4 @@ jobs:
           context: .
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
