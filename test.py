@@ -10,7 +10,7 @@ for i in range(10):
         if r.status_code == 200:
             break
     except Exception:
-        time.sleep(2)
+        time.sleep(6)
 else:
     raise Exception("Service did not become healthy")
 
