@@ -58,7 +58,7 @@ jobs:
           go get -u ./...
 
       - name: Scan with Trivy
-        uses: aquasecurity/trivy-action@v0.28.0
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           scan-ref: ${{ env.LOCAL_TAG }}
           format: table
