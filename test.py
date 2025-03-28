@@ -1,20 +1,11 @@
 import requests
 import time
 
-BASE_URL = "http://0.0.0.0:8080"
+BASE_URL = "http://localhost:8080"
 
 #Wait initial time
 time.sleep(60)
-# Retry a few times if needed
-for i in range(40):
-    try:
-        r = requests.get(BASE_URL + "/health")
-        if r.status_code == 200:
-            break
-    except Exception:
-        time.sleep(3)
-else:
-    raise Exception("Service did not become healthy")
+
 
 # Test creating a recipedf
 response = requests.post(
