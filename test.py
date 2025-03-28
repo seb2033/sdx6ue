@@ -6,7 +6,7 @@ BASE_URL = "http://localhost:8080"
 #Wait initial time
 time.sleep(60)
 # Retry a few times if needed
-for i in range(10):
+for i in range(40):
     try:
         r = requests.get(BASE_URL + "/health")
         if r.status_code == 200:
