@@ -16,7 +16,7 @@ for i in range(40):
 else:
     raise Exception("Service did not become healthy")
 
-# Test creating a recipe
+# Test creating a recipedf
 response = requests.post(
     BASE_URL + "/recipes",
     json={
