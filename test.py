@@ -1,7 +1,7 @@
 import requests
 import time
 
-BASE_URL = "http://localhost:8080"
+BASE_URL = "http://0.0.0.0:8080"
 
 #Wait initial time
 time.sleep(60)
