@@ -25,16 +25,18 @@ spec:
             - name: DB_HOST
               value: db
             - name: DB_NAME
-              value: recipe
+              value: postgres
             - name: DB_PASSWORD
               value: postgres
             - name: DB_PORT
               value: "5432"
             - name: DB_USER
               value: postgres
-          image: app
+          image: ghcr.io/seb2033/sdx6ue:latest
           name: recipe-app
           ports:
             - containerPort: 8080
               protocol: TCP
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com
       restartPolicy: Always

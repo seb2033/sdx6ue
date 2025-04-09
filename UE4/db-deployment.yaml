@@ -22,9 +22,9 @@ spec:
     spec:
       containers:
         - env:
-            - name: DB_PASSWORD
+            - name: POSTGRES_PASSWORD
               value: postgres
-            - name: DB_USER
+            - name: POSTGRES_USER
               value: postgres
           image: postgres:latest
           livenessProbe:
