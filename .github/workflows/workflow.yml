@@ -2,6 +2,6 @@
   uses: helm/chart-releaser-action@v1.7.0
   with:
     charts_dir: charts
-    #config: cr.yaml
+    config: cr.yaml
   env:
     CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
