@@ -1,9 +1,0 @@
-kind: Secret
-type: kubernetes.io/dockerconfigjson
-apiVersion: v1
-metadata:
-  name: dockerconfigjson-github-com
-  labels:
-    app: app-name
-data:
-  .dockerconfigjson: eyJhdXRocyI6eyJnaGNyLmlvIjp7ImF1dGgiOiJjekl5TVRBeU16a3dNams2WjJod1gzSTNWVEYzUW0xSE1XUm5ObTlsYjFKQmJqbDNhbHAxV1dOMk5GSlJWak5sVldacE1BPT0ifX19
