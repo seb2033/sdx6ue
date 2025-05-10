@@ -133,7 +133,6 @@ selector:
 
 postgresql:
   auth:
-      existingSecret: recipe-db-secret
       username: postgres
       database: postgres
   primary:
@@ -154,5 +153,5 @@ env:
   - name: DB_PASSWORD
     valueFrom:
       secretKeyRef:
-        name: recipe-db-secret
+        name: recipe-postgresql
         key: postgres-password
