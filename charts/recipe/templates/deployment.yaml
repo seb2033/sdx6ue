@@ -61,7 +61,17 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           env: 
-            {{- toYaml .Values.env | nindent 12 }}
+            - name: DB_USER
+              value: {{ .Values.postgresql.auth.username }}
+            - name: DB_NAME
+              value: {{ .Values.postgresql.auth.database }}
+            - name: DB_HOST
+              value: {{ .Values.postgresql.fullnameOverride | default (printf "%s-postgresql" .Release.Name) | quote }}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: user-pw
+                  name: recipe-db-secret
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}

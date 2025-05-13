@@ -134,25 +134,16 @@ selector:
 postgresql:
   auth:
       existingSecret: recipe-db-secret
+      secretKeys:
+        adminPasswordKey: admin-pw
+        userPasswordKey: user-pw
       username: postgres
       database: postgres
   primary:
     resources:
-      epheral-storage: 0
+      ephemeral-storage: 0
       persistence:
         size: 5Gi
         
-env:
-  - name: DB_HOST
-    value: recipe-postgresql
-  - name: DB_PORT
-    value: "5432"  
-  - name: DB_NAME
-    value: postgres
-  - name: DB_USER
-    value: postgres
-  - name: DB_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: recipe-db-secret
-        key: postgres-password
+dbAdminPassword: PASSWORD
+dbUserPassword: PASSWORD
