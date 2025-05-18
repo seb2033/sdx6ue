@@ -133,5 +133,6 @@ postgresql:
     persistence:
       enabled: false
         
+
 dbAdminPassword: PASSWORD
 dbUserPassword: PASSWORD
