@@ -40,6 +40,18 @@ spec:
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: DB_USER
+              value: {{ .Values.postgresql.auth.username }}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: user-pw
+                  name: recipe-db-secret
+            - name: DB_HOST
+              value: {{ .Values.postgresql.fullnameOverride | default (printf "%s-postgresql" .Release.Name) | quote }}
+            - name: DB_NAME
+              value: {{ .Values.postgresql.auth.database }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -60,8 +72,6 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          env: 
-            {{- toYaml .Values.env | nindent 12 }}
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
@@ -78,4 +88,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-
